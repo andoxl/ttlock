@@ -1447,7 +1447,33 @@ class Manager extends EventEmitter {
       await sleep(100);
       wait--;
     }
+    if (lock.connecting) {
+      // 20 s écoulées et le flag est toujours haut : il n'y a plus de connect en vol,
+      // c'est un flag orphelin (voir _forceResetBleState). Sans ce reset, les 4
+      // tentatives qui suivent retournent false instantanément — à l'infini.
+      console.warn('Flag connecting bloqué pour', address, '— réinitialisation forcée');
+      await this._forceResetBleState(lock);
+    }
     return lock.isConnected();
+  }
+
+  /**
+   * Clear the SDK's per-lock BLE state after an abandoned connect.
+   *
+   * withTimeout() rejects its wrapper but cannot cancel the underlying
+   * lock.connect() — that promise stays pending inside the SDK with
+   * lock.connecting=true forever, and every later connect() short-circuits on
+   * that flag and returns false instantly. The lock is then dead until the addon
+   * restarts (observed: 800+ consecutive newEvents failures on three locks).
+   *
+   * Note the disconnect() is NOT gated on isConnected(): during a wedged connect
+   * isConnected() is false, which is precisely the case we need to clean up.
+   * @param {import('ttlock-sdk-js').TTLock} lock
+   */
+  async _forceResetBleState(lock) {
+    await lock.disconnect().catch(() => {});
+    lock.connecting = false;
+    if (lock.adminAuth !== undefined) lock.adminAuth = false;
   }
 
   /**
@@ -1545,8 +1571,11 @@ class Manager extends EventEmitter {
       return true;
     } catch (error) {
       console.error(`Connect attempt ${attempt}/4 error:`, error.message);
-      // Reset so the next attempt doesn't skip macro_adminLogin on a stale session
-      if (lock.adminAuth !== undefined) lock.adminAuth = false;
+      // withTimeout a abandonné lock.connect() : le SDK garde connecting=true et
+      // toutes les tentatives suivantes échoueront instantanément. Reset complet
+      // (couvre aussi adminAuth, pour ne pas sauter macro_adminLogin sur une
+      // session périmée).
+      await this._forceResetBleState(lock);
       return false;
     }
   }
@@ -2055,6 +2084,11 @@ class Manager extends EventEmitter {
         return false;
       });
       if (!result) {
+        // Timeout ou refus immédiat : dans les deux cas le SDK peut rester avec
+        // connecting=true (le finally ci-dessous ne nettoie que si isConnected(),
+        // ce qui est faux justement quand le connect est bloqué). Sans ce reset la
+        // serrure ne se reconnecte plus jamais jusqu'au redémarrage de l'addon.
+        await this._forceResetBleState(lock);
         this._scheduleNewEventsBackoff(lock); // connect failed — back off, don't spam
         return;
       }
