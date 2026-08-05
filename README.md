@@ -1,4 +1,4 @@
-# ttlock-hass-integration
+# ttlock
 
 **Work In Progress**: Manage and operate TTLock biometric locks locally from Home Assistant without the need of a gateway or the TTLock cloud.
 
