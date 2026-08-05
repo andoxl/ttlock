@@ -1,5 +1,5 @@
 {
-  "name": "ttlock-hass-integration",
+  "name": "ttlock",
   "version": "2.5.0",
   "description": "Integration of the offline TTLock sdk into Home Assistant",
   "main": "index.js",
@@ -10,26 +10,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ledark1/hass-addons.git"
+    "url": "git+https://github.com/andoxl/ttlock.git"
   },
   "keywords": [
     "ttlock",
-    "hass.io",
     "homeassistant",
-    "home",
-    "assistant",
-    "integration",
-    "unofficial",
     "offline"
   ],
   "author": "Domodom <domodom30@gmail.com>",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/ledark1/hass-addons/issues"
+    "url": "https://github.com/andoxl/ttlock/issues"
   },
-  "homepage": "https://github.com/ledark1/hass-addons/tree/master/ttlock-hass-integration",
+  "homepage": "https://github.com/andoxl/ttlock/tree/master/ttlock-hass-integration",
   "dependencies": {
-    "@domodom30/ttlock-sdk-js": "^0.7.1",
+    "ttlock-sdk-js": "https://github.com/andoxl/ttlock-sdk-js.git",
     "async-mqtt": "^2.6.1",
     "express": "^4.17.1",
     "ws": "^7.4.2"
