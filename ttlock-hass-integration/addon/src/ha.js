@@ -2,7 +2,7 @@ import mqtt from 'async-mqtt';
 import manager from './manager.js';
 import store from './store.js';
 import door from './door.js';
-import { LockedStatus } from '@domodom30/ttlock-sdk-js';
+import { LockedStatus } from 'https://github.com/andoxl/ttlock-sdk-js.git';
 import {
   BRIDGE_AVAILABILITY_TOPIC,
   PAYLOAD_ONLINE,
