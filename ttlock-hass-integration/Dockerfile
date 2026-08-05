@@ -1,49 +1,21 @@
-ARG BUILD_FROM=ghcr.io/home-assistant/amd64-base:3.19
-FROM ${BUILD_FROM}
+FROM node:22-alpine
 
-ENV LANG=C.UTF-8
+ENV LANG C.UTF-8
 
-# =========================
-# 🔧 System deps (ALPINE)
-# =========================
-RUN apk add --no-cache \
-    nodejs \
-    npm \
-    python3 \
-    py3-pip \
-    make \
-    g++ \
-    gcc \
-    linux-headers \
-    pkgconfig \
-    dbus \
-    bluez \
-    bluez-dev \
-    eudev-dev \
-    git
+RUN apk update
 
-# =========================
-# 🧠 Fix BLE / noble
-# =========================
-ENV NODE_OPTIONS=--dns-result-order=ipv4first
+RUN apk add --no-cache nodejs npm python3 py3-pip alpine-sdk libcap bluez bluez-dev eudev-dev dbus openrc git
 
-# =========================
-# 📦 App
-# =========================
-WORKDIR /app
+RUN setcap cap_net_raw+eip $(eval readlink -f $(which node))
 
-COPY addon/ /app/
-COPY start.sh /start.sh
+WORKDIR /
 
-RUN chmod +x /start.sh
+COPY addon /app
+RUN rm -rf /app/node_modules
 
-# install npm deps (BLE needs build tools)
-# NPM_CONFIG_INCLUDE=dev ensures devDependencies (typescript) are available
-# for the SDK's prepare/build script when installing from GitHub source.
-# Once built, devDependencies are no longer needed at runtime.
-RUN NPM_CONFIG_INCLUDE=dev npm install --build-from-source
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
 
-# =========================
-# 🚀 entrypoint
-# =========================
-ENTRYPOINT ["/start.sh"]
+RUN cd /app && NPM_CONFIG_INCLUDE=dev npm install && npm install -g npm@latest
+
+ENTRYPOINT ["/app/start.sh"]
