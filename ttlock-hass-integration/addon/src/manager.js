@@ -1,7 +1,7 @@
 import EventEmitter from 'node:events';
 import https from 'node:https';
 import store from './store.js';
-import { TTLockClient, AudioManage, LockedStatus, LogOperateCategory, LogOperateNames } from 'https://github.com/andoxl/ttlock-sdk-js.git';
+import { TTLockClient, AudioManage, LockedStatus, LogOperateCategory, LogOperateNames } from 'ttlock-sdk-js';
 
 const ScanType = Object.freeze({
   NONE: 0,
