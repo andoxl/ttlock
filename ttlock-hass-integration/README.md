@@ -34,8 +34,8 @@
 | Component | Details |
 |---|---|
 | **Bluetooth** | Adapter compatible with [`@abandonware/noble`](https://github.com/abandonware/noble) **or** a remote Noble BLE gateway (e.g. ESP32) |
-| **MQTT** | Optional broker — recommended for Home Assistant automations (Mosquitto add-on is auto-detected) |
-| **Home Assistant** | Supervised / OS install with add-ons support |
+| **MQTT** | Optional broker — recommended for Home Assistant automations |
+| **Home Assistant** | Core |
 
 ---
 
@@ -83,7 +83,7 @@
     <td align="center"><strong>IC cards</strong></td>
   </tr>
   <tr>
-    <td><img src="https://raw.githubusercontent.com/andoxl/httlock/master/ttlock-hass-integration/img/frontend_code.png" alt="PIN codes" width="380"/></td>
+    <td><img src="https://raw.githubusercontent.com/andoxl/ttlock/master/ttlock-hass-integration/img/frontend_code.png" alt="PIN codes" width="380"/></td>
     <td><img src="https://raw.githubusercontent.com/andoxl/ttlock/master/ttlock-hass-integration/img/frontend_ic.png" alt="IC cards" width="380"/></td>
   </tr>
   <tr>
