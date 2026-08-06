@@ -16,12 +16,6 @@
 
 </div>
 
-<p align="center">
-  <a href="https://ko-fi.com/A1V11ZZTPI">
-    <img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="ko-fi">
-  </a>
-</p>
-
 ---
 
 ## 📑 Table of contents
