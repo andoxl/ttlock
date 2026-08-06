@@ -9,7 +9,7 @@
 [![Version](https://img.shields.io/badge/version-2.5.0-blue?style=flat-square)](https://github.com/andoxl/ttlock/blob/master/ttlock-hass-integration/CHANGELOG.md)
 [![HA](https://img.shields.io/badge/Home%20Assistant-compatible-41BDF5?style=flat-square&logo=homeassistant)](https://www.home-assistant.io/)
 [![BLE](https://img.shields.io/badge/Bluetooth-BLE-0082FC?style=flat-square&logo=bluetooth)](https://github.com/abandonware/noble)
-[![SDK](https://img.shields.io/badge/SDK-andoxl%2Fttlock--sdk--js-orange?style=flat-square)]
+![SDK](https://img.shields.io/badge/SDK-andoxl%2Fttlock--sdk--js-orange?style=flat-square)
 [![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE.md)
 
 > ⚠️ **Experimental**
